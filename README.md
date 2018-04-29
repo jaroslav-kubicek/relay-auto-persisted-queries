@@ -15,13 +15,13 @@ This is complete working setup of Relay Modern environment:
 ```javascript
 // @flow
 
+import { sha256 } from 'js-sha256';
+import persistedQueries from 'relay-auto-persisted-queries';
 import { Environment, RecordSource, Store } from 'relay-runtime';
 import {
   RelayNetworkLayer,
   urlMiddleware,
 } from 'react-relay-network-modern';
-import { sha256 } from 'js-sha256';
-import persistedQueries from 'relay-auto-persisted-queries';
 
 const network = new RelayNetworkLayer([
   urlMiddleware({
