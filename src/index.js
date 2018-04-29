@@ -7,7 +7,7 @@ type Options = {
   hash: (?string) => string
 };
 
-const persistedQueries = (options: Options) => next => async req => {
+const persistedQueries = (options: Options) => (next: Function) => async (req: Object) => {
   if (req instanceof RelayNetworkLayerRequestBatch) {
     throw new Error('Batched requests are not supported by current version.');
   }
