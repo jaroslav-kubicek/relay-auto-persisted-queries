@@ -1,8 +1,6 @@
 // @flow
 
-import {
-  RelayNetworkLayerRequestBatch
-} from 'react-relay-network-modern';
+import { RelayNetworkLayerRequestBatch } from 'react-relay-network-modern';
 
 type Options = {
   useGETForHashedQueries: boolean,
@@ -32,7 +30,8 @@ const persistedQueries = (options: Options) => next => async req => {
   };
   const originalMethod = req.fetchOpts.method;
 
-  if (options.useGETForHashedQueries) {
+  // if requested, use GET for queries (but not mutations)
+  if (options.useGETForHashedQueries && req.operation.operationKind === 'query') {
     req.fetchOpts.method = 'GET';
     delete req.fetchOpts.body;
     const url = new URL(req.fetchOpts.url || '');
@@ -61,6 +60,5 @@ const persistedQueries = (options: Options) => next => async req => {
 
   return res;
 };
-
 
 export default persistedQueries;
