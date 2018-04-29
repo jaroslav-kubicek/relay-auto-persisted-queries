@@ -3,11 +3,11 @@
 import { RelayNetworkLayerRequestBatch } from 'react-relay-network-modern';
 
 type Options = {
-  useGETForHashedQueries: boolean,
-  hash: (?string) => string
+  useGETForHashedQueries?: boolean,
+  hash?: (?string) => string
 };
 
-const persistedQueries = (options: Options) => (next: Function) => async (req: Object) => {
+const persistedQueries = (options: Options = {}) => (next: Function) => async (req: Object) => {
   if (req instanceof RelayNetworkLayerRequestBatch) {
     throw new Error('Batched requests are not supported by current version.');
   }
@@ -24,7 +24,7 @@ const persistedQueries = (options: Options) => (next: Function) => async (req: O
     extensions: {
       persistedQuery: {
         version: 1,
-        sha256Hash: queryId || options.hash(queryText)
+        sha256Hash: queryId || (options.hash && options.hash(queryText))
       }
     }
   };
