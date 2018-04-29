@@ -1,0 +1,12 @@
+node_modules/
+
+# generated code
+lib/
+es/
+
+# Logs
+yarn-error.log
+
+# IntelliJ Files
+*.iml
+.idea/

@@ -1,0 +1,40 @@
+{
+  "plugins": [
+    "babel-plugin-transform-flow-strip-types"
+  ],
+  "env": {
+    "lib": {
+      "presets": [
+        ["env", {
+          "targets": {
+            "browsers": [
+              "last 5 versions",
+              "ie 9",
+              "defaults"
+            ]
+          }
+        }]
+      ]
+    },
+    "es": {
+      "presets": [
+        ["env", {
+          "targets": {
+            "chrome": 52
+          },
+          "loose": true,
+          "modules": false
+        }]
+      ]
+    },
+    "test": {
+      "presets": [
+        ["env", {
+          "targets": {
+            "node": "current"
+          }
+        }]
+      ]
+    }
+  }
+}

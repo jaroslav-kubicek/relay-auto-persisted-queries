@@ -1,0 +1,40 @@
+{
+  "name": "relay-auto-persisted-queries",
+  "version": "0.0.1",
+  "description": "Automatic persisted queries for Relay Modern",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "files": [
+    "es",
+    "lib"
+  ],
+  "author": {
+    "name": "Jaroslav Kubicek",
+    "email": "jaroslav.kubicek@gmail.com",
+    "url": "http://nimral.cz/"
+  },
+  "license": "MIT",
+  "scripts": {
+    "typecheck": "flow check",
+    "eslint": "eslint .",
+    "build:lib": "rimraf lib && BABEL_ENV=lib babel src --ignore __tests__,__mocks__ -d lib",
+    "build:es": "rimraf es && BABEL_ENV=es babel src --ignore __tests__,__mocks__ -d es"
+  },
+  "dependencies": {
+    "react-relay-network-modern": "2.1.2"
+  },
+  "devDependencies": {
+    "babel-cli": "6.26.0",
+    "babel-eslint": "8.2.3",
+    "babel-plugin-transform-flow-strip-types": "6.22.0",
+    "babel-preset-env": "1.6.1",
+    "eslint": "4.19.1",
+    "eslint-config-airbnb-base": "12.1.0",
+    "eslint-config-prettier": "2.9.0",
+    "eslint-plugin-import": "2.11.0",
+    "eslint-plugin-prettier": "2.6.0",
+    "flow-bin": "0.70.0",
+    "prettier": "1.12.1",
+    "rimraf": "2.6.2"
+  }
+}
