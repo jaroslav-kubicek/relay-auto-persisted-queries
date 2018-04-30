@@ -4,7 +4,20 @@ import { RelayNetworkLayerRequestBatch } from 'react-relay-network-modern';
 
 type Options = {
   useGETForHashedQueries?: boolean,
-  hash?: (?string) => string
+  hash?: (?string) => string,
+};
+
+const createGETUrl = (fetchUrl, persistedQuery) => {
+  // eslint-disable-next-line no-undef
+  const base = typeof window === 'object' ? window.location.origin : '';
+  const url = new URL(fetchUrl || '/graphql', base);
+  Object.entries(persistedQuery).forEach(([key, value]) => {
+    const param = typeof value === 'object' ? JSON.stringify(value) : String(value);
+
+    url.searchParams.append(key, param);
+  });
+
+  return url.toString();
 };
 
 const persistedQueries = (options: Options = {}) => (next: Function) => async (req: Object) => {
@@ -20,25 +33,20 @@ const persistedQueries = (options: Options = {}) => (next: Function) => async (r
 
   const persistedQuery = {
     operationName: req.operation.name,
-    variables: {},
+    variables: req.variables,
     extensions: {
       persistedQuery: {
         version: 1,
-        sha256Hash: queryId || (options.hash && options.hash(queryText))
-      }
-    }
+        sha256Hash: queryId || (options.hash && options.hash(queryText)),
+      },
+    },
   };
   const originalMethod = req.fetchOpts.method;
-
   // if requested, use GET for queries (but not mutations)
   if (options.useGETForHashedQueries && req.operation.operationKind === 'query') {
     req.fetchOpts.method = 'GET';
     delete req.fetchOpts.body;
-    const url = new URL(req.fetchOpts.url || '');
-    Object.entries(persistedQuery).map(([key, value]) =>
-      url.searchParams.append(key, JSON.stringify(value))
-    );
-    req.fetchOpts.url = url.toString();
+    req.fetchOpts.url = createGETUrl(req.fetchOpts.url, persistedQuery);
   } else {
     req.fetchOpts.body = JSON.stringify(persistedQuery);
   }

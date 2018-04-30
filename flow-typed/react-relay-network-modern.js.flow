@@ -1,0 +1,3 @@
+declare module 'react-relay-network-modern' {
+  declare module.exports: any;
+}
