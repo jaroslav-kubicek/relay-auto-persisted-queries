@@ -27,7 +27,7 @@ const persistedQueries = (options: Options = {}) => (next: Function) => async (r
 
   const { id: queryId, text: queryText } = req.operation;
 
-  if (!queryId && (!options.hash && !queryText)) {
+  if (!queryId && (!options.hash || !queryText)) {
     throw new Error('Either query id or hashing function & query must be defined!');
   }
 
